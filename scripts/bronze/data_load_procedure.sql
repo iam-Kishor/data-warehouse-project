@@ -12,7 +12,7 @@ Usage Example:
     EXEC bronze.load_bronze;
 ===============================================================================
 */
-CREATE OR ALTER PROCEDURE bronze.batchload AS
+CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME;
 	BEGIN TRY
@@ -26,6 +26,7 @@ BEGIN
 		PRINT'=========================================';
 		PRINT'LOADING CRM TABLES...';
 		PRINT'=========================================';
+
 		SET @start_time = GETDATE();
 		BULK INSERT bronze.crm_cust_info
 		FROM 'K:\Projects\Git Repos\Data Warehouse Project\Datasets\Source_CRM\cust_info.csv'
@@ -108,14 +109,13 @@ BEGIN
 		PRINT'>>TIME TAKEN TO LOAD: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' SECONDS';
 		
 		SET @batch_end_time = GETDATE();
-
 		PRINT' ';
 		PRINT'=========================================';
 		PRINT 'LOADING COMPLETED SUCCESSFULLY...';
 		PRINT'=========================================';
 		PRINT' ';
 		PRINT'>>TIME TAKEN FOR BRONZE BATCH LOAD: ' + CAST(DATEDIFF(SECOND, @batch_start_time, @batch_end_time) AS NVARCHAR) + ' SECONDS';
-	-- HERE UPDATEd AS BATCH LOAD INDICATING WE ARE USING TRUNCATE AND LOAD APPROACH
+	-- HERE UPDATED AS BATCH LOAD INDICATING WE ARE USING TRUNCATE AND LOAD APPROACH
 	END TRY
 	BEGIN CATCH
 		PRINT '=========================================';
