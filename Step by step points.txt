@@ -1,0 +1,100 @@
+Medallion Architecture -> bronze, silver, gold
+Created dwh database with three schemas -> bronze, silver, gold
+batch load -> auto deletes existing database and load all again, so please do careful while data modification
+
+BRONZE LAYER:
+
+data ingestion
+data completeness and schema check
+
+Bronze Layer Load:
+
+Used ddl queries to Create blank tables and adding if-drop query to drop and load tables
+Used bulk insert query to load data in bulk which is fast approach than normal insert
+Used TABLOCK in query to lock the table during the bulk insert for better performance
+Used Truncate before bulk insert query to prevent duplicate data loading
+Created Procedure to do it fast and easy in a click
+Used Try & Catch inside procedure for error handling
+Used timers to record time taken for loading
+
+SILVER LAYER:
+
+Used ddl queries to Create blank tables and adding if-drop query to drop and load tables
+Added a new column for every table created date which reflects creation of silver table
+
+Silver Layer Load:
+
+CUSTOMER_INFO_TABLE:
+
+Check quality of data inside the table from bronze layer before loading into silver layer
+
+Removed duplicates and nulls in customer id
+customer key is clean
+Trimming unwanted spaces from first name and last name columns
+Data standardization / Data transformation for gender and marital status values where we map coded values to meaningful descriptions
+Handling missing values for for gender and marital status
+created date is clean
+
+QUALITY CHECK PASSED FOR CUSTOMER INFO TABLE THEN LOADED INTO SILVER
+
+PRODUCT_INFO_TABLE:
+
+Product ID is clean
+Product Key is clean
+Extracted cat_id from product key and replace '-' with '_'
+Extracted Only product key value from product key
+Handled nulls in product cost by isnull
+Data standardization / Data transformation for product line where we map coded values to meaningful descriptions
+Cast of product start date from datetime to date
+Cast of product end date from datetime to date and handled incorrect end time format by using lead function
+
+Finally we added columns and changed datatypes. So, we need to change metadata of silver product info to match and then insert
+
+QUALITY CHECK PASSED FOR PRODUCT INFO TABLE THEN LOADED INTO SILVER
+
+SALES_DETAILS_TABLE:
+
+Order num is clean
+Product key is clean
+customer id is clean
+For Order date it is given in integer format we need to cast it to varchar first then cast that into date after checking it is not less than o and length is 8
+For Ship date it is given in integer format we need to cast it to varchar first then cast that into date after checking it is not less than o and length is 8
+For Due date it is given in integer format we need to cast it to varchar first then cast that into date after checking it is not less than o and length is 8
+For Sales we need to give quantity * price
+
+Finally we added columns and changed datatypes. So, we need to change metadata of silver product info to match and then insert
+
+QUALITY CHECK PASSED FOR SALES DETAILS TABLE THEN LOADED INTO SILVER
+
+CUST AZ12 TABLE:
+
+Extracted NAS from CID by using substring
+Cleaned future birth dates and 100 years ago birth dates and updated nulls in that place
+Data standardization / Data transformation for gen where we map coded values to meaningful descriptions
+
+QUALITY CHECK PASSED FOR CUST AZ12 TABLE TABLE THEN LOADED INTO SILVER
+
+LOC A101 TABLE:
+
+From CID replaced '_' with '' to match data to another table
+Data standardization / Data transformation for cntry where we map coded values to meaningful descriptions
+
+QUALITY CHECK PASSED FOR LOC A101 TABLE THEN LOADED INTO SILVER
+
+PX CAT G1 V2 TABLE: 
+
+All columns are clean no extra spaces and unwanted data
+
+QUALITY CHECK PASSED FOR PX CAT G1 V2 TABLE THEN LOADED INTO SILVER
+
+We need truncate and load for silver table. Hence, added truncate and print statements as well to get clear understanding
+
+Created Procedure to do it fast and easy in a click
+Used Try & Catch inside procedure for error handling
+Used timers to record time taken for loading
+
+GOLDEN LAYER:
+
+By using data relations diagram created joins to create views for dimensions like customers and products
+By using relations between customers and products created views for facts like sales
+
