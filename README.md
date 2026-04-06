@@ -48,7 +48,6 @@ Enable data-driven decision-making by building a centralized warehouse to answer
   * `fact_sales`
   * `dim_customers`
   * `dim_products`
-  * `dim_time`
 * Optimized for analytical queries and BI tools
 
 ---
