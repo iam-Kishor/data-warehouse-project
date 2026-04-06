@@ -181,7 +181,9 @@ EXEC bronze.batchload;
 
 ## 🙋‍♂️ About Me
 
-Data Analyst transitioning into Data Engineering, focused on building **scalable data pipelines and warehouse solutions**.
+Data Analyst transitioning into Data Engineering, building end-to-end data warehouse projects using SQL Server and Medallion Architecture.
+
+**Focused on ETL pipelines, data modeling, and transforming raw data into meaningful business insights.**
 
 ---
 
