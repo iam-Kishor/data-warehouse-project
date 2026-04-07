@@ -182,13 +182,6 @@ EXEC bronze.batchload;
 
 ---
 
-## 📈 Future Enhancements
-
-* Incremental data loading
-* Slowly Changing Dimensions (SCD Type 2)
-* Integration with Power BI dashboards
-* Pipeline orchestration (ADF / Airflow)
-
 ---
 
 ## 🙋‍♂️ About Me
