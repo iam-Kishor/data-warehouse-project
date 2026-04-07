@@ -64,6 +64,19 @@ Enable data-driven decision-making by building a centralized warehouse to answer
 
 ---
 
+## 📊 Project Highlights
+
+| Metric | Value |
+|------|------|
+| Architecture | Medallion (Bronze–Silver–Gold) |
+| Data Sources | 2+ |
+| ETL Pipelines | End-to-End |
+| Data Model | Star Schema |
+| SQL Queries | 50+ |
+| Layers | 3 |
+| Use Case | Analytics & Reporting |
+| Level | Intermediate → Advanced |
+
 ## 🔄 Data Pipeline Workflow
 
 ```id="q7l1z4"
